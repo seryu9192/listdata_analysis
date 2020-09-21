@@ -1,0 +1,169 @@
+{
+	// Place your snippets for cpp here. Each snippet is defined under a snippet name and has a prefix, body and 
+	// description. The prefix is what is used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. Placeholders with the 
+	// same ids are connected.
+	// Example:
+	// "Print to console": {
+	// 	"prefix": "log",
+	// 	"body": [
+	// 		"console.log('$1');",
+	// 		"$2"
+	// 	],
+	// 	"description": "Log output to console"
+	// }
+
+	//standard io / make array
+	"cin_value": {
+		"prefix": "in",
+		"body": [
+			"$1 $2; cin >> $2;"
+		],
+		"description": "input value"
+	},
+
+	"cin_vector": {
+		"prefix": "cv",
+		"body": [
+			"vector<$1> $2($3);",
+			"rep(i, $3) cin >> $2[i];"
+		],
+		"description": "input vector"
+	},
+
+	"make_vv": {
+		"prefix": "vv",
+		"body": [
+			"vector<vector<$1>> $2($3, vector<$1>($4, $5));"
+		],
+		"description": "make 2D vector"
+	},
+
+	"make_vvv": {
+		"prefix": "vvv",
+		"body": [
+			"vector<vector<vector<$1>>> $2($3, vector<vector<$1>>($4, vector<$1>($5, $6)));"
+		],
+		"description": "make 3D vector"
+	},
+
+	"cout_newline": {
+		"prefix": "co",
+		"body": [
+			"cout << $1 << endl;"
+		],
+		"description": "cout with newline"
+	},
+	"cout_space": {
+		"prefix": "cs",
+		"body": [
+			"cout << $1 << \" \";"
+		],
+		"description": "cout with space"
+	},
+	"endline": {
+		"prefix": "el",
+		"body": [
+			"cout << endl;"
+		],
+		"description": "newline"
+	},
+	"cerr_newline": {
+		"prefix": "cer",
+		"body": [
+			"cerr << $1 << endl;"
+		],
+		"description": "cerr with new line"
+	},
+
+	//macro
+	"rep": {
+		"prefix": "rep",
+		"body": "rep($1, $2)\r\n{\r\n    \r\n}",
+		"description": "rep"
+	}
+
+	//math
+	"gcd_lcm": {
+		"prefix": "gcd",
+		"body": [
+			"template <typename T>",
+			"T gcd(T a, T b) { return b == 0 ? a : gcd(b, a % b); }",
+			"template <typename T>",
+			"T lcm(T a, T b) { T g = gcd(a, b); return a * b / g; }"
+		],
+		"description": "calculate greatest common divisor and least common multiple"
+	},
+	"is_prime": {
+		"prefix": "is_prime",
+		"body": [
+			"template <typename T>",
+			"bool is_prime(T x){ for (T i = 2; i * i <= x; i++) { if (x % i == 0)return false; } return true; }"
+		],
+		"description": "primarity test"
+	},
+		
+	"mod_pow": {
+		"prefix": "mod_pow",
+		"body": "//Power with MOD: O(logp)\r\ntemplate<typename T>\r\nT mod_pow(T a, int p)\r\n{\r\n\tif (p == 0)return 1;\r\n\telse if (p == 1)return a;\r\n\telse if (p % 2 == 0)\r\n\t{\r\n\t\tll h = mod_pow(a, p / 2);\r\n\t\treturn h * h % MOD;\r\n\t}\r\n\telse return (mod_pow(a, p - 1) * a) % MOD;\r\n}",
+		"description": "Calculate power with MOD"
+	},
+
+	"combination recursion": {
+		"prefix": "comb_rec",
+		"body": "//Combination using recursive formula: O(m)\r\ntemplate<typename T>\r\nT comb_rec(T n, T m)\r\n{\r\n\tif (n < m)return 0;\r\n\tif (n / 2 < m)return mod_comb(n, n - m);\r\n\tll resMul = 1;\r\n\tll resDiv = 1;\r\n\tfor (ll i = 1; i <= m; i++)\r\n\t{\r\n\t\tresMul *= (n - i + 1);\r\n\t\tresMul %= MOD;\r\n\t\tresDiv *= i;\r\n\t\tresDiv %= MOD;\r\n\t}\r\n\tll res = (resMul * mod_pow(resDiv, MOD - 2)) % MOD;\r\n\treturn res;\r\n}",
+		"description": "Calculate combination using recursive formula"
+	},
+
+	"combination factorial": {
+		"prefix": "comb_fact",
+		"body": "//Combination using factorial: O(n)\r\nstruct comb_fact\r\n{\r\n\tint N;\r\n\tvector<ll> fact, fact_inv;\r\n\tcomb_fact(int n):N(n)\r\n\t{\r\n\t\tfact = vector<ll>(N+1,1);\r\n\t\tfact_inv = vector<ll>(N+1,1);\r\n\t\trep(i, n)\r\n\t\t{\r\n\t\t\tfact[i+1] = (fact[i]*ll(i+1)) % MOD;\r\n\t\t\tfact_inv[i+1]=(fact_inv[i]*mod_pow(ll(i+1),MOD-2)) % MOD;\r\n\t\t}\r\n\t};\r\n\r\n\tll comb(ll n, ll m)\r\n\t{\r\n\t\treturn (((fact[n]*fact_inv[m]) % MOD) * fact_inv[n-m]) % MOD;\r\n\t}\r\n};\r\n",
+		"description": "Calculate combination using factorial"
+	},
+
+	"popcount": {
+		"prefix": "popcount",
+		"body": "//popcount:count number of bits which are 1\r\ntemplate<typename T>\r\nint popcount(T n)\r\n{\r\n\tint res = 0;\r\n\twhile (n > 0)\r\n\t{\r\n\t\tif (n & 1)res++;\r\n\t\tn = n >> 1;\r\n\t}\r\n\treturn res;\r\n}",
+		"description": "count number of bits which are 1"
+	},
+	//Data structures
+	"Binary Indexed Tree": {
+		"prefix": "BIT",
+		"body": "//Binary Indexed Tree(1-indexed)\r\nstruct BIT\r\n{\r\n\tint n;\r\n\tvector<ll> dat;\r\n\r\n\tBIT(int n_ar) : n(n_ar)\r\n\t{\r\n\t\tdat = vector<ll>(n, 0);\r\n\t}\r\n\r\n\tll sum(int i)\r\n\t{\r\n\t\tll s = 0;\r\n\t\twhile (i>0)\r\n\t\t{\r\n\t\t\ts += dat[i];\r\n\t\t\ti -= i & -i;\r\n\t\t}\r\n\t\treturn s;\r\n\t}\r\n\r\n\tvoid add(int i, ll x)\r\n\t{\r\n\t\twhile (i<=n)\r\n\t\t{\r\n\t\t\tdat[i] += x;\r\n\t\t\ti += i & -i;\r\n\t\t}\r\n\t}\r\n};",
+		"description": "Binary Indexed Tree (Fenwick tree)"
+	},
+	"Segment tree": {
+		"prefix": "segtree",
+		"body": "//Segment tree\r\nstruct SegmentTree\r\n{\r\n\tint n = 1;\r\n\tvector<int> dat;\r\n\r\n\tSegmentTree(int N)\r\n\t{\r\n\t\tinit(N);\r\n\t}\r\n\r\n\tvoid init(int n_)\r\n\t{\r\n        n = 1;\r\n\t\twhile (n < n_)n *= 2;\r\n\t\tdat.resize(2 * n - 1);\r\n\t\t//rep(i, sz(dat))dat[i] = 0;\r\n\t}\r\n\r\n\tvoid update(int k, int a) \r\n\t{\r\n\t\tk += n - 1;\r\n\t\t//dat[k] += a;\r\n\t\twhile (k > 0)\r\n\t\t{\r\n\t\t\tk = (k - 1) / 2;\r\n\t\t\t//dat[k] += a;\r\n\t\t}\r\n\t}\r\n\r\n\tint query(int a, int b, int k, int l, int r)\r\n\t{\r\n\t\tif (r <= a || b <= l)return 0;\r\n\t\tif (a <= l && r <= b)return dat[k];\r\n\t\telse\r\n\t\t{\r\n\t\t\tauto val_l = query(a, b, 2 * k + 1, l, (l + r) / 2);\r\n\t\t\tauto val_r = query(a, b, 2 * k + 2, (l + r) / 2, r);\r\n\t\t\treturn //val_l + val_r;\r\n\t\t}\r\n\t}\r\n};",
+		"description": "Segment tree for general purpose"
+	},
+	"Segment tree for RMQ": {
+		"prefix": "segtreeRMQ",
+		"body": "//Segment tree for RMQ\r\nstruct SegTreeRMQ\r\n{\r\n\tint n = 1;\r\n\tvector<int> dat;\r\n\r\n\tSegTreeRMQ(int N)\r\n\t{\r\n\t\tinit(N);\r\n\t}\r\n\r\n\tvoid init(int n_)\r\n\t{\r\n\t\tn = 1;\r\n\t\twhile (n < n_)n *= 2;\r\n\t\tdat.resize(2 * n - 1);\r\n\t\tfor (int i = 0; i < 2 * n - 1; i++)dat[i] = INT_MAX;\r\n\t}\r\n\r\n\tvoid update(int k, int a) \r\n\t{\r\n\t\tk += n - 1;\r\n\t\tdat[k] = a;\r\n\t\twhile (k > 0)\r\n\t\t{\r\n\t\t\tk = (k - 1) / 2;\r\n\t\t\tdat[k] = min(dat[2 * k + 1], dat[2 * k + 2]);\r\n\t\t}\r\n\t}\r\n\r\n\tint query(int a, int b, int k, int l, int r) //[a,b):query,k:今のノードの番号,[l,r):今のノードに対応するsegment\r\n\t{\r\n\t\tif (r <= a || b <= l)return INT_MAX;\r\n\t\tif (a <= l && r <= b)return dat[k];\r\n\t\telse\r\n\t\t{\r\n\t\t\tint val_l = query(a, b, 2 * k + 1, l, (l + r) / 2);\r\n\t\t\tint val_r = query(a, b, 2 * k + 2, (l + r) / 2, r);\r\n\t\t\treturn min(val_l, val_r);\r\n\t\t}\r\n\t}\r\n};",
+		"description": "Segment tree for RMQ"
+	},
+	"Union Find Tree": {
+		"prefix": "unionfind",
+		"body": "//Union-Find tree\r\nstruct UnionFind\r\n{\r\n\tvector<ll> par;\r\n\tvector<ll> rank;\r\n\tvector<ll> siz;\r\n\r\n\tUnionFind(ll n) : par(n), rank(n), siz(n)\r\n\t{\r\n\t\tfor (ll i = 0; i < n; i++)\r\n\t\t{\r\n\t\t\tpar[i] = i;\r\n\t\t\trank[i] = 0;\r\n\t\t\tsiz[i] = 1;\r\n\t\t}\r\n\t}\r\n\tll root(ll x)\r\n\t{\r\n\t\tif (par[x] == x) return x;\r\n\t\telse return par[x] = root(par[x]);\r\n\t}\r\n\tll size(ll x)\r\n\t{\r\n\t\treturn siz[root(x)];\r\n\t}\r\n\tvoid unite(ll x, ll y)\r\n\t{\r\n\t\tll rx = root(x);\r\n\t\tll ry = root(y);\r\n\t\tif (rx == ry)return;\r\n\t\tif (rank[rx] < rank[ry])swap(rx, ry);\r\n\t\tpar[ry] = rx;\r\n\t\tsiz[rx] += siz[ry];\r\n\t\tif (rank[rx] == rank[ry])rank[rx]++;\r\n\t}\r\n\tbool same(ll x, ll y)\r\n\t{\r\n\t\treturn root(x) == root(y);\r\n\t}\r\n};",
+		"description": "Union Find Tree"
+	},
+	
+	//comparison function
+	"compare_by_second": {
+		"prefix": "compare",
+		"body": "//vector<pair<int,int>>の比較関数\r\nbool compare_by_second(pair<int, int> a, pair<int, int> b)\r\n{\r\n\tif (a.second != b.second)return a.second < b.second;\r\n\telse return a.first < b.first;\r\n}",
+		"description": "vector<pair<int,int>>の比較関数"
+	},
+
+	//Tree algorithm
+	"BellmanFord": {
+		"prefix": "bellman",
+		"body": "//Bellman-Ford algorithm\r\nstruct edge { int from, to, cost; };\r\nvector<int> d= vector<int>(V, INF);\r\nvector<edge> graph;\r\n\r\nvoid bellman_ford(int s)\r\n{\r\n\td[s] = 0;\r\n\twhile (true)\r\n\t{\r\n\t\tbool update = false;\r\n\t\tfor (int i = 0; i < E; i++)\r\n\t\t{\r\n\t\t\tedge e = graph[i];\r\n\t\t\tif (d[e.from] != INF && d[e.to] > d[e.from] + e.cost)\r\n\t\t\t{\r\n\t\t\t\td[e.to] = d[e.from] + e.cost;\r\n\t\t\t\tupdate = true;\r\n\t\t\t}\r\n\t\t}\r\n\t\tif (!update)break;\r\n\t}\r\n}",
+		"description": "Bellman-Ford algorithm"
+	},
+	"Dijkstra": {
+		"prefix": "dijkstra",
+		"body": "//Dijkstra algorithm O(ElogV)\r\nint V;\r\nstruct edge { int to, cost; };\r\nvector<int> d;\r\nvector<vector<edge>> g;\r\n\r\nvoid dijkstra(int s)\r\n{\r\n\tpriority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> que;//firstで昇順にソート\r\n\td[s] = 0;\r\n\tque.push(pair<int, int>(0, s));\r\n\twhile (!que.empty())\r\n\t{\r\n\t\tpair<int, int> p = que.top(); que.pop();\r\n\t\tint v = p.second;\r\n\t\tif (d[v] < p.first)continue;\r\n\t\tfor (int i = 0; i < g[v].size(); i++)\r\n\t\t{\r\n\t\t\tedge e = g[v][i];\r\n\t\t\tif (d[e.to] > d[v] + e.cost)\r\n\t\t\t{\r\n\t\t\t\td[e.to] = d[v] + e.cost;\r\n\t\t\t\tque.push(pair<int, int>(d[e.to], e.to));\r\n\t\t\t}\r\n\t\t}\r\n\t}\r\n}",
+		"description": "Dikstra algorithm"
+	}
+}

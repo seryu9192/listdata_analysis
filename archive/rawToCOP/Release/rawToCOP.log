@@ -1,0 +1,29 @@
+﻿  rawToCOP.cpp
+C:\Users\RyuMurase\OneDrive\programs\C++\research\rawToCOP\library.hpp(1,1): warning C4819: ファイルは、現在のコード ページ (932) で表示できない文字を含んでいます。データの損失を防ぐために、ファイルを Unicode 形式で保存してください。
+C:\Users\RyuMurase\OneDrive\programs\C++\research\rawToCOP\rawToCOP.cpp(141,23): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+C:\Users\RyuMurase\OneDrive\programs\C++\research\rawToCOP\rawToCOP.cpp(202,20): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+C:\Users\RyuMurase\OneDrive\programs\C++\research\rawToCOP\rawToCOP.cpp(205,26): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+C:\Users\RyuMurase\OneDrive\programs\C++\research\rawToCOP\rawToCOP.cpp(230,20): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+C:\Users\RyuMurase\OneDrive\programs\C++\research\rawToCOP\rawToCOP.cpp(233,22): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+C:\Users\RyuMurase\OneDrive\programs\C++\research\rawToCOP\rawToCOP.cpp(282,42): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+C:\Users\RyuMurase\OneDrive\programs\C++\research\rawToCOP\rawToCOP.cpp(284,42): warning C4018: '>': signed と unsigned の数値を比較しようとしました。
+C:\Users\RyuMurase\OneDrive\programs\C++\research\rawToCOP\rawToCOP.cpp(306,37): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+C:\Users\RyuMurase\OneDrive\programs\C++\research\rawToCOP\rawToCOP.cpp(308,37): warning C4018: '>': signed と unsigned の数値を比較しようとしました。
+C:\Users\RyuMurase\OneDrive\programs\C++\research\rawToCOP\rawToCOP.cpp(349,20): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+C:\Users\RyuMurase\OneDrive\programs\C++\research\rawToCOP\rawToCOP.cpp(409,20): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+C:\Users\RyuMurase\OneDrive\programs\C++\research\rawToCOP\rawToCOP.cpp(473,11): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+C:\Users\RyuMurase\OneDrive\programs\C++\research\rawToCOP\rawToCOP.cpp(480,17): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+C:\Users\RyuMurase\OneDrive\programs\C++\research\rawToCOP\rawToCOP.cpp(491,22): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+C:\Users\RyuMurase\OneDrive\programs\C++\research\rawToCOP\rawToCOP.cpp(517,23): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+C:\Users\RyuMurase\OneDrive\programs\C++\research\rawToCOP\rawToCOP.cpp(538,11): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+C:\Users\RyuMurase\OneDrive\programs\C++\research\rawToCOP\rawToCOP.cpp(545,17): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+C:\Users\RyuMurase\OneDrive\programs\C++\research\rawToCOP\rawToCOP.cpp(556,22): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+C:\Users\RyuMurase\OneDrive\programs\C++\research\rawToCOP\rawToCOP.cpp(582,23): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+C:\Users\RyuMurase\OneDrive\programs\C++\research\rawToCOP\library.hpp(279,21): warning C4018: '<': signed と unsigned の数値を比較しようとしました。
+C:\Users\RyuMurase\OneDrive\programs\C++\research\rawToCOP\rawToCOP.cpp(186): message : コンパイル対象の関数 テンプレート インスタンス化 'void writeListFile<ui>(std::string,std::vector<std::vector<std::_Vbase,std::allocator<std::_Vbase>>,std::allocator<std::vector<std::_Vbase,std::allocator<std::_Vbase>>>>,char)' のリファレンスを確認してください
+  コード生成しています。
+  23 of 476 functions ( 4.8%) were compiled, the rest were copied from previous compilation.
+    2 functions were new in current compilation
+    4 functions had inline decision re-evaluated but remain unchanged
+  コード生成が終了しました。
+  rawToCOP.vcxproj -> C:\Users\RyuMurase\OneDrive\programs\C++\research\rawToCOP\Release\rawToCOP.exe
