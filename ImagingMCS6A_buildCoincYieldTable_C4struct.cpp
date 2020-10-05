@@ -1,14 +1,12 @@
-﻿//ImagingMCS6A_buildCoincYieldTable_C3struct.cpp: あるTOFのピークとコインシデンスする分子軸の角度の収量を数え、coincYield(chn表記)
-//                                          テーブルを作成する
+﻿//ImagingMCS6A_buildCoincYieldTable_C4struct.cpp: あるTOFのピークとコインシデンスする構造の収量を数え、coincYield(chn表記)
+//    		                                      テーブルを作成する
 
 //アップデートログ
-//2020.08.25:ImagingMCS6A_buildCoincYieldTable_molAxis.cpp と
-//           ImagingMCS6A_C3+countStructurewithTOF.cpp     をもとに作成
+//2020.09.25:ImagingMCS6A_buildCoincYieldTable_C3struct.cppをもとに作成、4量体の構造解析
 
-//2020.09.05:readParameter関数において、関連するパラメータをすべて読み取らないとfalseを返すように変更
-//2020.09.05:outputTableの0列目にクラスターサイズを追加
+//inputlist : {filenum, framgenum, xc, yc, l, d2/l, d3/l, q1, q2, q3, q4}
 
-//[clustersize, E, qcomb, SRMin, SRMax, m/z(0:projectile, -1:total), count]のテーブルを出力
+//[clustersize, E, qcomb, m/z(0:projectile, -1:total), count]のテーブルを出力
 
 #include "./library.hpp"
 
@@ -25,7 +23,8 @@ const int COL_FILE = 0;
 const int COL_FRAME = 1;
 const int COL_X = 2;
 const int COL_Y = 3;
-const int COL_SR = 13;
+const int COL_DL2 = 5;
+const int COL_DL3 = 6;
 
 //TOF inputdata列(COL_FILEはimagingと共通)
 const int COL_SWEEP = 1;
@@ -41,8 +40,8 @@ regex re_filename("\\d+_q=(\\d+)(.*).txt");
 vector<int> m_zList;
 vector<int> roiMin;
 vector<int> roiMax;
-vector<double> srMin;
-vector<double> srMax;
+vector<double> dlMin;
+vector<double> dlMax;
 vector<vector<double>> inputListData_img;
 vector<vector<int>> inputListData_tof;
 
@@ -50,11 +49,11 @@ vector<vector<double>> outputTableData;
 vector<vector<double>> outputListData2;
 
 //INPUT_FOLDER
-string input_img_foldername = "\\imaging\\5_TriangleNotation";
+string input_img_foldername = "\\imaging\\5_SkewerNotation";
 string input_tof_foldername = "\\tof\\4_coinc";
 
 //OUTPUT_DATANAME
-string OUTPUT_DATANAME = "_coincYieldTable_struct.txt";
+string OUTPUT_DATANAME = "_coincYieldTable_circular.txt";
 
 //dataname
 string dataname = "yyyymmdd";
@@ -62,31 +61,30 @@ string dataname = "yyyymmdd";
 //Initial energy E0(keV/atom)
 int E0 = 2000;
 
-
 //Cluster size
 int clusterSize = 1;
 
 //param fileを読み込む
 bool readParameter(string);
 
-//指定したファイル番号、イベント番号、ある分子軸角度をもつイベントが存在するかどうかを調べる(存在すればtrue)
+//指定したファイル番号、イベント番号、あるd/lをもつイベントが存在するかどうかを調べる(存在すればtrue)
 bool Exists(int, int, double, double, int, int);
 
 int main()
 {
 	cout << "*********************************************************************************" << endl;
-	cout << "****             ImagingMCS6A_buildCoincYieldTable_C3struct.cpp              ****" << endl;
-	cout << "****     -TOFピーク内のイベントとコインシデンスしているC3の構造を数える-     ****" << endl;
+	cout << "****             ImagingMCS6A_buildCoincYieldTable_C4struct.cpp              ****" << endl;
+	cout << "****     -TOFピーク内のイベントとコインシデンスしているC4の構造を数える-     ****" << endl;
 	cout << "****            入力データ：TOF\\4_coinc、imaging\\5_TriangleNotation          ****" << endl;
 	cout << "****            TOF,imaging共通: 0列目にfileNum,1列目にeventNum              ****" << endl;
 	cout << "****               TOFchannel:3列目、imaging_molAxis:4列目                   ****" << endl;
 	cout << "****   imaging_center of mass:2(x), 3(y)列目, b_diff:6列目にあるとして評価   ****" << endl;
-	cout << "****    パラメータ：m/z(ヘッダ用),roiMin/roiMax(TOFのROIchn), SRMin/SRMax    ****" << endl;
+	cout << "****    パラメータ：m/z(ヘッダ用),roiMin/roiMax(TOFのROIchn), DLMin/DLMax    ****" << endl;
 	cout << "****      ※Parameter file は出力ファイルディレクトリに「ファイル名param.txt」****" << endl;
 	cout << "****                                         の名前であらかじめ作成しておく  ****" << endl;
 	cout << "****  [E, qcomb, thetaMin, thetaMax, m/z(0:projectile, -1:total), count]     ****" << endl;
 	cout << "****                                      のテーブル(coincYieldTable)を出力  ****" << endl;
-	cout << "****                                   ver.2020.09.05 written by R. Murase   ****" << endl;
+	cout << "****                                   ver.2020.09.25 written by R. Murase   ****" << endl;
 	cout << "*********************************************************************************" << endl << endl;
 
 	//入力イメージングデータパスの生成
@@ -163,8 +161,8 @@ int main()
 		showSeries<int>("m_zList", m_zList);
 		showSeries<int>("roiMin", roiMin);
 		showSeries<int>("roiMax", roiMax);
-		showSeries<double>("srMin", srMin);
-		showSeries<double>("srMax", srMax);
+		showSeries<double>("dlMin", dlMin);
+		showSeries<double>("dlMax", dlMax);
 		cout << "clustersize = " << clusterSize << endl;
 		cout << "E0 = " << E0 << " keV/atom" << endl;
 	}
@@ -203,12 +201,12 @@ int main()
 		inputListData_img = readListFile<double>(inputDataPath_img);
 		cout << "データの読み込み完了 --> 処理を開始します" << endl;
 
-		// 切り出すSRごとにカウント
-		for (int srNum = 0; srNum < srMin.size(); srNum++)
+		// 切り出すDLごとにカウント
+		for (int dlNum = 0; dlNum < dlMin.size(); dlNum++)
 		{
-			//角度の範囲を決定
-			double srmin = srMin[srNum];
-			double srmax = srMax[srNum];
+			//d/l minの範囲を決定
+			double dlmin = dlMin[dlNum];
+			double dlmax = dlMax[dlNum];
 
 			//イベントカウンター(m_zListの要素数)
 			vector<int> eventCnt(m_zList.size(), 0);
@@ -242,38 +240,39 @@ int main()
 					}
 
 					//chnが着目する二次イオン(ROIに含まれる)でありなおかつ、同じファイル番号で、分子軸がROIに収まるものが存在すれば
-					if ((rmin <= chn && chn < rmax) && Exists(fileNum, frameNum, srmin, srmax, chn, b_diff_max))
+					if ((rmin <= chn && chn < rmax) && Exists(fileNum, frameNum, dlmin, dlmax, chn, b_diff_max))
 					{
 						//カウントを+1する
 						eventCnt[siNum]++;
 					}
 				}
 			}
-			//入射イベント数(incident)を数える（ROI角度に含まれている＋重心がROI円内に含まれている）
+			//入射イベント数(incident)を数える（d/lがROIに含まれている＋重心がROI円内に含まれている）
 			for (int row = 0; row < inputListData_img.size(); row++)
 			{
 				int x = inputListData_img[row][COL_X];
 				int y = inputListData_img[row][COL_Y];
 				int r2 = (x - x_c) * (x - x_c) + (y - y_c) * (y - y_c);
-				double sr = inputListData_img[row][COL_SR];
-				if (srmin <= sr && sr < srmax && r2 < R * R)
+				//d2/l, d3/lの内小さいほうを評価
+				double dl = min(inputListData_img[row][COL_DL2], inputListData_img[row][COL_DL3]);
+				if (dlmin <= dl && dl < dlmax && r2 < R * R)
 				{
 					incidentCnt++;
 				}
 			}
 
 			//projectile
-			vector<double> outputLine = {double(clusterSize), double(E0), double(qcomb), srmin, srmax, 0., double(incidentCnt)};
+			vector<double> outputLine = {double(clusterSize), double(E0), double(qcomb), dlmin, dlmax, 0., double(incidentCnt)};
 			outputTableData.push_back(outputLine);
 			
 			//secondary ion
 			for (int siNum = 0; siNum < eventCnt.size(); siNum++)
 			{
 				//siごとにoutputLineを構成し、TableDataにpush_back
-				vector<double> outputLine = {double(clusterSize), double(E0), double(qcomb), srmin, srmax, double(m_zList[siNum]) , double(eventCnt[siNum])};
+				vector<double> outputLine = {double(clusterSize), double(E0), double(qcomb), dlmin, dlmax, double(m_zList[siNum]) , double(eventCnt[siNum])};
 				outputTableData.push_back(outputLine);
 			}
-			cout << "SR = " <<  to_string(srmin) + "-" + to_string(srmax) << " ---解析終了" << endl;
+			cout << "DL = " <<  to_string(dlmin) + "-" + to_string(dlmax) << " ---解析終了" << endl;
 		}
 
 		//条件を満たすリストデータを抜き出して保存する(デバッグ用)
@@ -309,7 +308,7 @@ int main()
 bool readParameter(string pfilePath)
 {
 	//読み取るべきパラメータのリスト
-	vector<string> params = {"m/z", "roiMin", "roiMax", "srMin", "srMax", "CM", "E0"};
+	vector<string> params = {"m/z", "roiMin", "roiMax", "dlMin", "dlMax", "CM", "E0"};
 	
 	//各パラメータをファイルから読み取ったかどうか
 	map<string, bool> read;
@@ -377,27 +376,27 @@ bool readParameter(string pfilePath)
 			}
 			read["roiMax"] = true;
 		}
-		else if (name == "srMin")
+		else if (name == "dlMin")
 		{
 			double tmp;
 			while (ss >> tmp)
 			{
-				srMin.push_back(tmp);
+				dlMin.push_back(tmp);
 				//'\t'に出会うまでの文字列を無視
 				ss.ignore(line.size(), '\t');
 			}
-			read["srMin"] = true;
+			read["dlMin"] = true;
 		}
-		else if (name == "srMax")
+		else if (name == "dlMax")
 		{
 			double tmp;
 			while (ss >> tmp)
 			{
-				srMax.push_back(tmp);
+				dlMax.push_back(tmp);
 				//'\t'に出会うまでの文字列を無視
 				ss.ignore(line.size(), '\t');
 			}
-			read["srMax"] = true;
+			read["dlMax"] = true;
 		}
 		else if (name == "CM")
 		{
@@ -449,18 +448,17 @@ bool readParameter(string pfilePath)
 	}
 
 	//ROIのminとmaxの数が合わないときはパラメータファイルが不正
-	if (roiMin.size() != roiMax.size() || m_zList.size() != roiMin.size() || srMin.size() != srMax.size())
+	if (roiMin.size() != roiMax.size() || m_zList.size() != roiMin.size() || dlMin.size() != dlMax.size())
 	{
 		cout << "minとmaxのサイズが等しくないパラメータがあります" << endl;
 		cout << "パラメータファイルを確認してください" << endl;
 		isValid = false;
 	}
-
 	return isValid;
 }
 
-//imagingデータのうち、fileNum,frameNumをインデックスに持ち、srがsrmin以上srmax以下のものが存在するとき、trueを返す
-bool Exists(int fileNum, int frameNum, double srmin, double srmax, int chn, int b_diff_max)
+//imagingデータのうち、fileNum,frameNumをインデックスに持ち、dlがdlmin以上dlmax以下のものが存在するとき、trueを返す
+bool Exists(int fileNum, int frameNum, double dlmin, double dlmax, int chn, int b_diff_max)
 {
 	bool exist = false;
 
@@ -481,10 +479,11 @@ bool Exists(int fileNum, int frameNum, double srmin, double srmax, int chn, int 
 			int x = inputListData_img[mid][COL_X];
 			int y = inputListData_img[mid][COL_Y];
 			int r2 = (x - x_c) * (x - x_c) + (y - y_c) * (y - y_c);
-			//srを評価
-			double sr = inputListData_img[mid][COL_SR];
+			
+			//d2/l, d3/lの内小さいほうを評価
+			double dl = min(inputListData_img[mid][COL_DL2], inputListData_img[mid][COL_DL3]);
 
-			if (srmin <= sr && sr < srmax && r2 < R * R)
+			if (dlmin <= dl && dl < dlmax && r2 < R * R)
 			{
 				exist = true;
 				/*

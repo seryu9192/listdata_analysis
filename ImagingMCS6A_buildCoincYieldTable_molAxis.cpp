@@ -7,6 +7,7 @@
 //2020.08.25:readParameter関数において、関係ないパラメータが書いてあってもfalseを返さないようにした(したがって常にtrue)
 //2020.09.05:readParameter関数において、関連するパラメータをすべて読み取らないとfalseを返すように変更
 //2020.09.05:outputTableの0列目にクラスターサイズを追加
+//2020.09.22:input_img_foldernameがクラスターサイズによって異なるので、パラメータファイルから読み取れるようにする
 
 //[clustersize, E0, qcomb, thetaMin, thetaMax, m/z(0:projectile, -1:total), count]のテーブルを出力
 
@@ -51,7 +52,7 @@ vector<vector<int>> outputTableData;
 vector<vector<double>> outputListData2;
 
 //INPUT_FOLDER
-string input_img_foldername = "\\imaging\\7_Linear_molAxis";
+string input_img_foldername = "\\imaging\\";
 string input_tof_foldername = "\\tof\\4_coinc";
 
 //OUTPUT_DATANAME
@@ -86,7 +87,7 @@ int main()
 	cout << "****                                         の名前であらかじめ作成しておく  ****" << endl;
 	cout << "**** [n, E, qcomb, thetaMin, thetaMax, m/z(0:projectile, -1:total), count]   ****" << endl;
 	cout << "****                                      のテーブル(coincYieldTable)を出力  ****" << endl;
-	cout << "****                                   ver.2020.09.05 written by R. Murase   ****" << endl;
+	cout << "****                                   ver.2020.09.22 written by R. Murase   ****" << endl;
 	cout << "*********************************************************************************" << endl << endl;
 
 	//入力イメージングデータパスの生成
@@ -94,24 +95,8 @@ int main()
 	cout << "データのフォルダを入力してください(ex. E:\\Cluster_sputtering\\MT2020\\MT2020#3\\1200keVC2_pos)\n--->";
 	cin >> inputDataFolder;
 
-	//入力パスの生成
-	string inputDataFolder_img = inputDataFolder + input_img_foldername;
-	string inputDataFolder_tof = inputDataFolder + input_tof_foldername;
-
-	//入力イメージングデータフォルダ内のファイルの名前を取得
-	vector<string> fNames = getFileNameInDir(inputDataFolder_img);
-	//フォルダにあるファイルのうち、param fileは除外
-	for (int i = 0; i < fNames.size(); i++)
-	{
-		if (fNames[i].find("param") != string::npos)
-		{
-			fNames.erase(fNames.begin() + i);
-		}
-	}
-
-	//上の階層に"dataname.txt"を探しに行く
-	string datanamePath = searchFileFromUpperFolder(inputDataFolder_tof, DATANAME_FILE);
-
+	//同じフォルダ内の"dataname.txt"を開く
+	string datanamePath = inputDataFolder + "\\" + DATANAME_FILE;
 	//"dataname.txt"を読み取れたら
 	if (!readDataName(datanamePath).empty())
 	{
@@ -125,21 +110,11 @@ int main()
 		cout << "解析するTOFリストデータのデータ名を入力してください\n--->";
 		cin >> dataname;
 	}
-	
 	//クラスターサイズを読み取り
 	clusterSize = readClustersize(datanamePath);
 	if(clusterSize == -1)
 	{
 		cout << "clustersizeを読み取れませんでした" << endl;
-		return -1;
-	}
-
-	//入力TOFデータの読み込み
-	string inputDataPath_tof = inputDataFolder_tof + "\\" + dataname + ".txt";
-	if (!checkFileExistence(inputDataPath_tof))
-	{
-		cerr << "ファイルを開けませんでした" << endl;
-		system("pause");
 		return -1;
 	}
 
@@ -168,6 +143,31 @@ int main()
 		cout << "E0 = " << E0 << " keV/atom" << endl;
 		cout << "clustersize = " << clusterSize << endl;
 	}
+
+	//入力パスの生成
+	string inputDataFolder_img = inputDataFolder + input_img_foldername;
+	string inputDataFolder_tof = inputDataFolder + input_tof_foldername;
+
+	//入力イメージングデータフォルダ内のファイルの名前を取得
+	vector<string> fNames = getFileNameInDir(inputDataFolder_img);
+	//フォルダにあるファイルのうち、param fileは除外
+	for (int i = 0; i < fNames.size(); i++)
+	{
+		if (fNames[i].find("param") != string::npos)
+		{
+			fNames.erase(fNames.begin() + i);
+		}
+	}
+
+	//入力TOFデータの読み込み
+	string inputDataPath_tof = inputDataFolder_tof + "\\" + dataname + ".txt";
+	if (!checkFileExistence(inputDataPath_tof))
+	{
+		cerr << "ファイルを開けませんでした" << endl;
+		system("pause");
+		return -1;
+	}
+
 	//total secondary ionのラベル(-1)を追加
 	m_zList.push_back(-1);
 
@@ -309,7 +309,7 @@ int main()
 bool readParameter(string pfilePath)
 {
 	//読み取るべきパラメータのリスト
-	vector<string> params = {"m/z", "roiMin", "roiMax", "thetaMin", "thetaMax", "CM", "b_diff_max", "E0"};
+	vector<string> params = {"m/z", "roiMin", "roiMax", "thetaMin", "thetaMax", "CM", "b_diff_max", "E0", "imgFolder"};
 	
 	//各パラメータをファイルから読み取ったかどうか
 	map<string, bool> read;
@@ -426,6 +426,13 @@ bool readParameter(string pfilePath)
 			ss >> tmp;
 			E0 = tmp;
 			read["E0"] = true;
+		}
+		else if (name == "imgFolder")
+		{
+			string tmp;
+			ss >> tmp;
+			input_img_foldername += tmp;
+			read["imgFolder"] = true;
 		}
 	}
 
