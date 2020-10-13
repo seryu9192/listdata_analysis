@@ -113,6 +113,7 @@ int main()
 	else
 	{
 		cout << inputDataName + "_eventCount.txt が見つかりませんでした" << endl;
+		start = 1;
 		cout << "start = " << start << endl;
 	}
 

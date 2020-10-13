@@ -80,7 +80,7 @@ int main()
 	cout << "**** パラメータ：m/z(ヘッダ用),roiMin/roiMax(TOFのROIchn), thetaMin/thetaMax ****" << endl;
 	cout << "****      ※Parameter file は出力ファイルディレクトリに「ファイル名param.txt」****" << endl;
 	cout << "****                                         の名前であらかじめ作成しておく  ****" << endl;
-	cout << "****　　　　　　 [n, E, qcomb, m/z(0:projectile, -1:total), count]          ****" << endl;
+	cout << "****　　　　　　 [n, E, qcomb, m/z(0:projectile, -1:total), count]           ****" << endl;
 	cout << "****                                      のテーブル(coincYieldTable)を出力  ****" << endl;
 	cout << "****                                   ver.2020.10.13 written by R. Murase   ****" << endl;
 	cout << "*********************************************************************************" << endl << endl;
