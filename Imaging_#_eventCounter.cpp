@@ -1,4 +1,4 @@
-﻿// ImagingEventCounter.cpp : このファイルには 'main' 関数が含まれています。プログラム実行の開始と終了がそこで行われます。
+﻿// ImagingEventCounter.cpp : "輝点の個数分布"を求めるプログラム : inputDataFolder = 2_charge
 //
 
 //アップデートログ
