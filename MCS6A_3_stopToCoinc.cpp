@@ -150,7 +150,7 @@ int main(int argc, char* argv[])
 		cout << "書き込みました" << endl;
 	}
 	//ログにコインシデンスに使ったイメージフォルダを残しておく
-	string logFilePath = outputDataFolder + "\\coincindence.log";
+	string logFilePath = outputDataFolder + "\\coincidence.log";
 	ofstream ofs(logFilePath, ios::app);
 	time_t t = chrono::system_clock::to_time_t(chrono::system_clock::now());
 	ofs << "--- " << ctime(&t);

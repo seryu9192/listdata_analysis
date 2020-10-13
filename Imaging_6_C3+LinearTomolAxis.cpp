@@ -136,7 +136,7 @@ int main(int argc, char* argv[])
 		//出力ファイルにoutputListDataを書き込み
 		string outputFilePath = outputDataFolder + "\\" + inputfilename;
 		writeListFile<double>(outputFilePath, outputListData);
-		cout << "に書き込みました" << endl;
+		cout << "書き込みました" << endl;
 
 		//データクリア
 		inputListData.clear();

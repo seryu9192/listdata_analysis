@@ -72,6 +72,7 @@ int main(int argc, char* argv[])
 	
 	//datanameをフォルダ名から読み取り
 	inputDataName = folderName(inputDataFolder);
+	
 	cout << "解析するリストデータのファイル名：" << inputDataName << endl;
 
 	//1_decodeフォルダ

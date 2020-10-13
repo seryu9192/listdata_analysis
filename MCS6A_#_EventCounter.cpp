@@ -13,6 +13,8 @@
 //2020.7.19:library.hppを導入
 //2020.7.21:start信号であるという判定を（COL_CHNが6である && ひとつ前のsweep番号と異なる）に変更（同じsweepで）
 //2020.9.18:読み込んだパラメータを表示するように修正
+//2020.10.13:start番号を、outputfile(eventCounter)を読み取って自動検出するようにする
+//2020.10.13:end番号を、inputDataFolderを読み取って自動検出するようにする
 
 #include "./library.hpp"
 
@@ -45,7 +47,7 @@ int main()
 	cout << "******************************************************" << endl;
 	cout << "****      MCS6A イベントカウンタープログラム      ****" << endl;
 	cout << "****      Start信号とStop信号の積算量を数える     ****" << endl;
-	cout << "****          ver.2020.9.18  written by R. Murase ****" << endl;
+	cout << "****         ver.2020.10.13  written by R. Murase ****" << endl;
 	cout << "******************************************************" << endl << endl;
 
 	//inputファイルの指定
@@ -99,15 +101,35 @@ int main()
 
 	//ファイル番号
 	int start, end;
-	cout << "解析するファイル番号(start,end)を入力してください" << endl;
-	cout << "start : ";
-	cin >> start;
-	cout << "end : ";
-	cin >> end;
+	//startを既存のファイルから自動検出
+	if(checkFileExistence(outputFilePath))
+	{
+		auto eventCountList = readListFile<string> (outputFilePath);
+		const int COL_FILE_IN_LIST = 0;
+		start = stoi(eventCountList[eventCountList.size()-1][COL_FILE_IN_LIST]) + 1;
+		cout << inputDataName + "_eventCount.txt を読み取りました" << endl;		
+		cout << "start = " << start << endl;		
+	}
+	else
+	{
+		cout << inputDataName + "_eventCount.txt が見つかりませんでした" << endl;
+		cout << "start = " << start << endl;
+	}
 
+	//endをリストデータの有無で自動検出
+	if(lastFileNum(inputDataFolder) > 0)
+	{
+		end = lastFileNum(inputDataFolder);
+		cout << "endを自動検出しました" << endl;
+		cout << "end = " << end << endl;
+	}
+	else
+	{
+		cout << "読み込みエラー：リストデータを確認してください" << endl;
+		return -1;
+	}
 	//出力ファイルにoutputListDataを書き込み
 	ofstream ofs;
-
 	//もしstartが1なら、新規書き込み。それ以外は追加書き込み
 	if (start == 1)
 	{

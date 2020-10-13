@@ -60,7 +60,7 @@ int main(int argc, char* argv[])
 	}
 
 	//リストデータを1行ずつ読み取り、\tで分けてinputListDataにpush_back
-	cout << inputDataPath + ".txt" + "----データを読み込んでいます...";
+	cout << inputDataPath + "----データを読み込んでいます...";
 	inputListData = readListFile<ui> (inputDataPath);
 	cout << "データの読み込み完了、処理を開始します...";
 
@@ -74,8 +74,8 @@ int main(int argc, char* argv[])
 	}
 	//TOFのチャンネルごとのyieldを数える
 	auto tofIntegrated = integrateTOF(chNum);
-
-	cout << "----処理終了 ---> 書き込んでいます...";
+	cout << tofIntegrated.size() << endl;
+	cout << "処理終了 ---> 書き込んでいます...";
 
 	//出力データパスの生成
 	string outputFilePath = folderpath + "\\" + filename + "bin=" + to_string(binWidth) + "integrated.txt";
