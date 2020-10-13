@@ -43,6 +43,7 @@ def read_dataname(dname_path):
 
 def main():
     while True:
+        print('**** Automate_exe_C2  ****')
         #working directory
         working_directory = input('Input the working directory(press ctrl+c to quit)\n --> ')
 
