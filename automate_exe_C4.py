@@ -10,13 +10,13 @@ FOLDER_TOF = 'tof'
 
 #入出力フォルダ：start, endファイル番号の自動検出に使うため（実際の出力フォルダの指定とフォルダ作成はC++側のプログラムで行われる）
 img_inp_folders = ['1_COP', '2_charge', '3_C4', '4_Combseparated', \
-                   '5_SkewerNotation', '4_Combseparated', '6_Linear']
+                   '5_SkewerNotation', '5_SkewerNotation', '4_Combseparated', '6_Linear']
 
 img_out_folders = ['2_charge', '3_C4', '4_Combseparated', '5_SkewerNotation',\
-                   '5_SkewerNotation\\5-1_Linear', '6_Linear', '7_Linear_molAxis']
+                   '5_SkewerNotation\\5-1_Linear', '5_SkewerNotation\\5-2_Circular','6_Linear', '7_Linear_molAxis']
 
 img_exe_path = ['./Imaging_1_COPToCharge.exe', './Imaging_2_chargeToCn.exe', './Imaging_3_CnToCombseparated.exe', './Imaging_4_C4+CombsepToSkewerNotation.exe', \
-                './Imaging_5_C4+SkewerNotationToLinear.exe', './Imaging_5-1_C4+CombsepToLin.exe', './Imaging_6_C4+LinearTomolAxis.exe']
+                './Imaging_5_C4+SkewerNotationToLinear.exe', './Imaging_5_C4+SkewerNotationToCircular.exe' ,'./Imaging_5-1_C4+CombsepToStructure.exe', './Imaging_6_C4+LinearTomolAxis.exe']
 
 tof_folder_names = ['1_decoded', '2_offsetScale', '3_stop', '4_coinc']
 tof_exe_path = ['./MCS6A_1_decodedToOffsetScale.exe', './MCS6A_2_offsetScaleToStop.exe', './MCS6A_3_stopToCoinc.exe']

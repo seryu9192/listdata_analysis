@@ -19,11 +19,9 @@ const int COL_EVENTNUM = 1;
 
 //SN_ROOTFOLDER(skewer notation folder)
 const string SN_ROOTFOLDER = "\\5_SkewerNotation\\";
-//vector<string> sn_names = {"5-1_Linear", "5-2_Circular"};
-vector<string> sn_names = {"5-2_Circular"};
+vector<string> sn_names = {"5-1_Linear", "5-2_Circular"};
 //outputfolderName
-//vector<string> outputFolderNames = {"\\6_Linear", "\\6_Circular"};
-vector<string> outputFolderNames = {"\\6_Circular"};
+vector<string> outputFolderNames = {"\\6_Linear", "\\6_Circular"};
 
 template <typename T = int, typename U = int>
 vector<vector<T>> extractEvents(vector<vector<T>>, vector<vector<U>>);
@@ -31,7 +29,7 @@ vector<vector<T>> extractEvents(vector<vector<T>>, vector<vector<U>>);
 int main(int argc, char* argv[])
 {
 	cout << "**************************************************************" << endl;
-	cout << "****          Imaging_5-1_C4+CombsepToLin.cpp             ****" << endl;
+	cout << "****      Imaging_5-1_C4+CombsepToStructure.cpp           ****" << endl;
 	cout << "****     -SkewerNotationイベントとコインシデンスした      ****" << endl;
 	cout << "****               Imagingイベントを抽出-                 ****" << endl;
 	cout << "****                 ver.2020.09.20 written by R. Murase  ****" << endl;
