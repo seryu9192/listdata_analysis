@@ -1,5 +1,7 @@
 #rawdata_coversion.py : rawdata(imaging, tof)をCOP, decoded形式に変換するスクリプト
-import os, subprocess
+import os
+import subprocess
+import sys
 
 exe_directory = r'C:\Users\clusterbeam\Documents\NI_PCIe1473R\Event_by_event_measurement_program'
 inputfolder = r'E:\nanocapillary'
@@ -27,11 +29,14 @@ def main():
         #start endを決める
         #ファイル番号をリストで受け取り、リストの長さで連番か単一ファイルかを判断
         fileNumber = list(map(int, input().split()))
-        if len(fileNumber) == 1:
+        if len(fileNumber) == 0:
+            sys.exit()
+        elif len(fileNumber) == 1:
             start = end = fileNumber[0]
         elif len(fileNumber) == 2:
             start = fileNumber[0]
             end = fileNumber[1]
+        
 
         #ディレクトリ再選択の処理
         while start == -1 and end == -1:
@@ -39,7 +44,9 @@ def main():
             print(MANUAL, end='---> ')
             #ファイル番号をリストで受け取り、リストの長さで連番か単一ファイルかを判断
             fileNumber = list(map(int, input().split()))
-            if len(fileNumber) == 1:
+            if len(fileNumber) == 0:
+                sys.exit()
+            elif len(fileNumber) == 1:
                 start = end = fileNumber[0]
             elif len(fileNumber) == 2:
                 start = fileNumber[0]
