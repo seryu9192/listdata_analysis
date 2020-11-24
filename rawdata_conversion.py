@@ -10,20 +10,40 @@ tof_exe = r'MCS6A_0_rawToDecoded.exe'
 img_outputfolder = r'COP'
 tof_outputfolder = r'decoded'
 
+MANUAL = """---- 使い方 ----
+- 単一ファイル処理：処理したいファイル番号を一つ入力
+- 連番ファイル処理：開始ファイル番号と終了ファイル番号を1 4のようにスペース区切りで入力
+- ディレクトリの再選択: -1 を入力
+- 終了: Enterのみを入力
+"""
+
 def main():
     print('imaging と tofのraw dataを変換する(Imaging_0_rawToCOP.exe/MCS6A_0_rawToDecoded.exeを立ち上げる)')
     inputfolder = input('rawdataのディレクトリパスを入力してください\n--->')
     
+    #無限ループ
     while True:
+        print(MANUAL, end='---> ')
         #start endを決める
-        print('開始ファイル番号と終了ファイル番号を1 4のようにスペース区切りで入力してください(Enterで終了, -1 -1 入力でディレクトリの再選択)')
-        start, end = map(int, input().split())
+        #ファイル番号をリストで受け取り、リストの長さで連番か単一ファイルかを判断
+        fileNumber = list(map(int, input().split()))
+        if len(fileNumber) == 1:
+            start = end = fileNumber[0]
+        elif len(fileNumber) == 2:
+            start = fileNumber[0]
+            end = fileNumber[1]
 
-        #ディレクトリ再選択
+        #ディレクトリ再選択の処理
         while start == -1 and end == -1:
             inputfolder = input('rawdataのディレクトリパスを入力してください\n--->')
-            print('開始ファイル番号と終了ファイル番号を1 4のようにスペース区切りで入力してください(Enterで終了, -1 -1 入力でディレクトリの再選択)')
-            start, end = map(int, input().split())
+            print(MANUAL, end='---> ')
+            #ファイル番号をリストで受け取り、リストの長さで連番か単一ファイルかを判断
+            fileNumber = list(map(int, input().split()))
+            if len(fileNumber) == 1:
+                start = end = fileNumber[0]
+            elif len(fileNumber) == 2:
+                start = fileNumber[0]
+                end = fileNumber[1]
 
         #imaging dataの処理: Imaging_0_rawToCOP.exe
         #読み取ったstart, endを表示

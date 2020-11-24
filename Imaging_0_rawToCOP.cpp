@@ -18,6 +18,7 @@
 //2020.9.18:outputListDataを、最後にまとめて書き込む方式から、batchごとに書き込む方式に変更
 //2020.9.19:NUM_EVENTS_PER_BATCH : 500000 -> 400000に変更
 //2020.9.20:読み取り時に、overflowを直しながらバッチごとに指定された範囲のみinputListBufに取り込むようしたreadListFile関数に変更
+//2020.11.21:ファイルが見つからない場合もプログラムを止めずに続きを処理するように変更
 
 #include "./library.hpp"
 
@@ -74,7 +75,7 @@ int main(int argc, char* argv[])
 	cout << "**   0:overflowしたデータを直す(port毎),1:frameNumでsort  **" << endl;
 	cout << "**   2:port/pxNumをX/Yに変換, 3:CoordinateOfPoint         **" << endl;
 	cout << "**                 NUM_PER_BATCH = " << NUM_EVENTS_PER_BATCH << "                 **" << endl;
-	cout << "**                    ver.2020.09.20 written by R. Murase **" << endl;
+	cout << "**                    ver.2020.11.21 written by R. Murase **" << endl;
 	cout << "************************************************************" << endl << endl;
 
 	string inputDataFolder, inputDataName, inputDataPath;
@@ -130,6 +131,16 @@ int main(int argc, char* argv[])
 		string outputFilePath = outputFolderPath + "\\" + inputDataName + suf + ".txt";
 		cout << inputDataName + suf + ": 処理を開始します" << endl;
 
+		//ファイルが存在するかを確認(代表して0ポートのファイルのみ確認)
+		//存在しなければ読み飛ばして次のファイルの処理に進む
+		string inputDataPath_test = inputDataFolder + "\\" + inputDataName + suf + "_0.txt";
+		ifstream ifs_test(inputDataPath_test);
+		if(!ifs_test)
+		{
+			cout << inputDataName + suf + " -- ファイルが存在しません" << endl;
+			continue;
+		}
+
 		//バッチ処理を開始
 		int bat = 0;
 		int eventMax = 0;
@@ -150,10 +161,12 @@ int main(int argc, char* argv[])
 				//入力データパスの生成
 				inputDataPath = inputDataFolder + "\\" + inputDataName + suf + sufPort + ".txt";
 				ifstream ifs(inputDataPath);
+
+				//あるポートだけファイルがない（= ファイルが欠けている）場合はさすがに強制終了
 				if (!ifs)
 				{
-					cerr << "ファイルを開けませんでした。プログラムを終了します" << endl;
-					system("pause");
+					cerr << inputDataName + suf +  + " --ファイルが欠けています。全てのポートのファイルがそろっているか確認してください" << endl;
+					cerr << "プログラムを終了します" << endl;
 					return -1;
 				}
 				//inputListBuf(2Dvector)を構成(overflowも同時に直して、)
