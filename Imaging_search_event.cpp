@@ -26,7 +26,7 @@ int main()
         double x = inputListData[i][COL_X];
         double y = inputListData[i][COL_Y];
         double t = inputListData[i][COL_MOLAXIS];
-        if(t < 1 && (x-X_C)*(x-X_C) + (y-Y_C)*(y-Y_C) < R*R)
+        if(t > 87 && (x-X_C)*(x-X_C) + (y-Y_C)*(y-Y_C) < R*R)
         {
             cout << setprecision(10) << inputListData[i][COL_FILE] << " " << inputListData[i][COL_FRAME] << " " << inputListData[i][COL_MOLAXIS] << endl;
         }
