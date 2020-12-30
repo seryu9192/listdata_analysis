@@ -1,4 +1,4 @@
-# event_counter.py: そのフォルダにある
+# event_counter.py: そのフォルダにあるリストデータのイベント数を集計する
 
 import os
 
