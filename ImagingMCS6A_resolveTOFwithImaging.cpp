@@ -3,7 +3,7 @@
 
 //アップデートログ
 //2020.7.9:VS Codeに移植
-//2020.7.27:
+//2021.2.11:ログファイルを残す機能を追加
 
 #include "./library.hpp"
 
@@ -23,7 +23,7 @@ int main()
 	cout << "******************************************************************" << endl;
 	cout << "****          ImagingMCS6A_resolveTOFwithImaging.cpp          ****" << endl;
 	cout << "****  -ImagingイベントとコインシデンスしたTOFイベントを出力-  ****" << endl;
-	cout << "****                    ver.2020.07.27 written by R. Murase   ****" << endl;
+	cout << "****                    ver.2021.02.11 written by R. Murase   ****" << endl;
 	cout << "******************************************************************" << endl << endl;
 
 	//入力イメージングデータパスの生成
@@ -110,6 +110,14 @@ int main()
 		writeListFile<int>(outputDataPath, outputListData);
 		cout << "処理完了！" << endl;
 	}
+
+	//ログにコインシデンスに使ったイメージフォルダ名を残しておく
+	string logFilePath = outputDataFolder + "\\coincidence.log";
+	ofstream ofs(logFilePath, ios::app);
+	time_t t = chrono::system_clock::to_time_t(chrono::system_clock::now());
+	ofs << "--- " << ctime(&t);
+	ofs << "Imaging folder used for coincidence: " + inputDataFolder_img << endl;
+	ofs.close();
 	cout << "全ての処理完了。プログラムを終了します" << endl;
 	return 0;
 }
