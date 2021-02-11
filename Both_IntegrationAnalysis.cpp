@@ -12,6 +12,7 @@
 //2020.7.17:出力フォルダを固定（入力フォルダの一つ上に保存）
 //2020.7.17:出力フォルダを入力フォルダと同じにする
 //2020.7.20:invalidの処理を変更（invalid.txtファイルの上に置く)
+//2021.2.11:出力するコメントを変更（結合→積算）
 
 #include "./library.hpp"
 
@@ -55,7 +56,7 @@ int main()
 	cout << "****              Imaging or MCS6A listデータから             ****" << endl;
 	cout << "****   積算データを構成するプログラム  (0:imaging, 1:MCS6A)   ****" << endl;
 	cout << "****      使えないファイルがある場合は\"invalid.txt\"を参照     ****" << endl;
-	cout << "****                      ver.2020.07.20 written by R. Murase ****" << endl;
+	cout << "****                      ver.2021.02.11 written by R. Murase ****" << endl;
 	cout << "******************************************************************" << endl << endl;
 
 	//入力データの指定
@@ -97,7 +98,7 @@ int main()
 	if (!checkFileExistence(invalidFilePath))
 	{
 		cout << "invalidファイルは見つかりませんでした" << endl;
-		cout << "全てのファイルを結合します" << endl;
+		cout << "全てのファイルを積算します" << endl;
 	}
 	else
 	{
