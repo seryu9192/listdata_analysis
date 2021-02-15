@@ -1,10 +1,9 @@
-# event_counter.py: そのフォルダにあるリストデータのイベント数を集計する
+# Imaging_#_event_counter.py: そのフォルダにあるリストデータのイベント数を集計する
 
 import os
 
-
 def main():
-    print('**** event_counter.py  ****')
+    print('**** Both_#_event_counter.py  ****')
     #working directory
     working_directory = input('Input the working directory\n --> ')
     outputpath = os.path.join(working_directory, 'event_counts.txt')
