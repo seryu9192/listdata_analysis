@@ -1,4 +1,5 @@
-# Imaging_#_event_counter.py: そのフォルダにあるリストデータのイベント数を集計する
+# Imaging_#_event_counter.py: Imagingリストデータのイベント数を集計する
+# 具体的には、linear structureの時の"7_Orientseparated"フォルダ内のイベントを配向毎に数えて足し合わせる
 
 import os
 
