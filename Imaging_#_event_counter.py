@@ -34,6 +34,7 @@ def main():
     outputdata += 'else_tot\t' + str(else_tot) + '\n'
     with open(outputpath, 'w') as f:
         f.write(outputdata)
+    print(f'done --- outputfile: {outputpath}')
 
 if __name__ == '__main__':
     main()
