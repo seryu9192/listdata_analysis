@@ -34,6 +34,7 @@ def main():
     outputdata += 'para_tot\t' + str(para_tot) + '\n'
     outputdata += 'perp_tot\t' + str(perp_tot) + '\n'
     outputdata += 'mid_tot\t' + str(mid_tot) + '\n'
+    outputdata += 'tot\t' + str(para_tot + perp_tot + mid_tot) + '\n'
 
     #write to the outputfile
     data_cond = working_directory.split('\\')[4]
