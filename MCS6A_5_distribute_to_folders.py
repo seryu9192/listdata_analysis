@@ -1,5 +1,5 @@
 # MCS6A_#_distribute_to_folders.py: Imagingリストデータを配向ごとにフォルダに分ける
-# 具体的には、"5_coinc_sep"フォルダ内のリストファイルをを配向毎に数えて足し合わせる
+# 具体的には、"5_coinc_sep"フォルダ内のリストファイルを配向毎に数えて足し合わせる
 
 import os
 import shutil
